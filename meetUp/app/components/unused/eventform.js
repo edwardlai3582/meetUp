@@ -15,10 +15,12 @@ class Eventform extends Component {
 		super();
         this.handleChange = this.handleChange.bind(this);
         fml = this.handleChange.bind(this);
-	}   
+	}    
+
     
     close() {
         this.props.hideEventModal();
+        this.props.resetForm();
     }
     
     addEvent(data) {
@@ -42,7 +44,7 @@ class Eventform extends Component {
                 <form className="signupformForm" onSubmit={handleSubmit(this.addEvent.bind(this))}>
                     <div>
                         <label><div className="labelT">Name</div>
-                        <Input type="text" placeholder="event Name" {...eventName}/>
+                        <Input type="text" placeholder="event Name" {...eventName} autoFocus="true"/>
                         </label>
                     </div>
                     <div>

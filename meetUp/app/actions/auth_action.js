@@ -1,7 +1,5 @@
 import C from '../constants';
-
 import {reset} from 'redux-form';
-
 import Firebase from 'firebase';
 
 const fireRef = new Firebase(C.FIREBASE);
@@ -26,15 +24,7 @@ const authActions = {
 	attemptSignupLogin(data) {
 		return (dispatch) => {
 			dispatch({ type: C.ATTEMPTING_LOGIN });
-            /*
-			fireRef.authWithOAuthPopup('facebook', (error) => {
-				if (error) {
-					dispatch({ type: C.DISPLAY_ERROR, error: 'Login failed! ' + error });
-					dispatch({ type: C.LOGOUT });
-				}
-			});
-            */
-            //create annount
+
             fireRef.createUser({
               email    : data.signupemail,
               password : data.signuppassword
@@ -65,7 +55,6 @@ const authActions = {
                       },
                       dob: data.signupdob        
                     });  
-
                   }
                 });  
               }

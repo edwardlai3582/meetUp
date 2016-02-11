@@ -4,31 +4,26 @@ import { routeActions } from 'react-router-redux';
 import { Button, Modal, Input, ButtonInput, Alert } from 'react-bootstrap';
 
 import Signupform from './signupform';
-
 import actions from '../actions';
 
 class Login extends Component {
 
-      close() {
-        //this.setState({ showModal: false });
-          this.props.hideSignupModal();
-      }
+    close() {
+        this.props.hideSignupModal();
+    }
 
-      open() {
-        //this.setState({ showModal: true });
-          this.props.showSignupModal();
-          this.props.dismissFeedback();
-          this.props.resetForm();
-      }
+    open() {
+        this.props.showSignupModal();
+        this.props.dismissFeedback();
+        this.props.resetForm();
+    }
     
     signIn(data) {
-        //this.props.goSomewhere('/');
         console.log(data);
         this.props.attemptLogin(data);
     }
 
     showAlert(){
-        //console.log(this.props.fields.email);
         if(typeof this.props.fields.email.value!=="undefined" || typeof this.props.fields.password.value!=="undefined" ){
             return(
                 <div></div>
@@ -53,14 +48,18 @@ class Login extends Component {
             </h1>
             <form onSubmit={handleSubmit(this.signIn.bind(this))}>
             <div>
-                <Input type="email" placeholder="Email" autoComplete="email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email}/>
+                <label>
+                <Input type="email" placeholder="Email" autoComplete="email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email} autoComplete="true"/>
+                </label>
             </div>
             <div className="signinAlert">
                 {email.touched && email.error && <div>{email.error}</div>}
             </div>  
                 
             <div>
+                <label>
                 <Input type="password" placeholder="Password" bsStyle={password.touched && password.invalid ? 'error' : null} {...password}/>
+                </label>
             </div>
             <div className="signinAlert">
                 {password.touched && password.error && <div>{password.error}</div>}
@@ -76,7 +75,6 @@ class Login extends Component {
             </ButtonInput>
           
             <Signupform />
-              
             </div>
         );
     }
@@ -84,26 +82,25 @@ class Login extends Component {
 }
 
 const validate = values => {
-  const errors = {};
+    const errors = {};
 
-  if (!values.email) {
-    errors.email = 'Required field';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-    
-  if (!values.password) {
-    errors.password = 'Required field';
-  } else if (values.password.length <3) {
-    errors.password = 'Must be 3 characters or more';
-  }
-    
-  return errors;
+    if (!values.email) {
+        errors.email = 'Required field';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+    }
+
+    if (!values.password) {
+        errors.password = 'Required field';
+    } else if (values.password.length <3) {
+        errors.password = 'Must be 3 characters or more';
+    }
+
+    return errors;
 };
 
 function mapDispatchToProps (dispatch) {
     return {
-        goSomewhere(url) {dispatch(routeActions.push(url));},
         showSignupModal() {dispatch(actions.showSignupModal())},
         hideSignupModal() {dispatch(actions.hideSignupModal())},
         attemptLogin(data) { dispatch(actions.attemptLogin(data))},
@@ -113,7 +110,6 @@ function mapDispatchToProps (dispatch) {
 
 function mapStateToProps (appState) {
 	return {
-		showModalq: appState.showModal,
         feedback: appState.feedback
 	};
 };

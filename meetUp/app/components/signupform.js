@@ -18,14 +18,12 @@ class Signupform extends Component {
     }
     
     signUp(data) {
-        //console.log(data);
         this.props.dismissFeedback();
         this.state.lastemail = data.signupemail;
         this.props.attemptSignupLogin(data);
     }
         
     showAlert(){
-        //console.log(this.props.fields.signupdob.value);
        if( this.props.feedback.msg && this.state.lastemail===this.props.fields.signupemail.value){
             return(
                 <div className="signupAlert">
@@ -50,11 +48,11 @@ class Signupform extends Component {
               </Modal.Header>
               <Modal.Body>
                 <form className="signupformForm" onSubmit={handleSubmit(this.signUp.bind(this))}>
-                    <label><div className="labelT">Email</div> 
-                    <Input type="email"  placeholder="email" className="signupformInput" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail}/>
+                    <label><div className="signupformFormlabelT">Email</div> 
+                    <Input type="email"  placeholder="email" className="signupformInput" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus="true"/>
                     </label>
                     
-                        {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}
+                    {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}
                     
                     
                     {this.showAlert()}
@@ -63,37 +61,36 @@ class Signupform extends Component {
                     <Input type="password" placeholder="password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
                     </label>
                     
-                        {signuppassword.touched && signuppassword.error && <div className="signupAlert">{signuppassword.error}</div>}
+                    {signuppassword.touched && signuppassword.error && <div className="signupAlert">{signuppassword.error}</div>}
                     
                     
                     <label> <div className="labelT">Confirm Password</div>
                     <Input type="password" placeholder="confirm password" className="signupformInput" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
                     </label>
                     
-                        {signupconfirmpassword.touched && signupconfirmpassword.error && <div  className="signupAlert">{signupconfirmpassword.error}</div>}
+                    {signupconfirmpassword.touched && signupconfirmpassword.error && <div  className="signupAlert">{signupconfirmpassword.error}</div>}
                     
                     
                     <label> <div className="labelT">First Name </div>
                     <Input type="text" placeholder="first Name" className="signupformInput" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
                     </label>
                     
-                        {signupfirstName.touched && signupfirstName.error && <div className="signupAlert">{signupfirstName.error}</div>}
+                    {signupfirstName.touched && signupfirstName.error && <div className="signupAlert">{signupfirstName.error}</div>}
                    
                     
                     <label> <div className="labelT">Last Name </div>
                     <Input type="text" placeholder="last Name" className="signupformInput" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
                     </label>
                    
-                        {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
+                    {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
                  
                     
                     <label> <div className="labelT">Date of Birth </div>
                     <Input type="date" placeholder="yyyy-mm-dd" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
                     </label>
                 
-                        {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}
+                    {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}
                    
-                    
                     <div className="signupformSubmitWrapper">
                         <Button type="submit">Submit</Button>    
                     </div>
@@ -105,40 +102,39 @@ class Signupform extends Component {
 }
 
 const validate = values => {
-  const errors = {};
+    const errors = {};
 
-  if (!values.signupemail) {
-    errors.signupemail = 'Required field';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.signupemail)) {
-    errors.signupemail = 'Invalid email address';
-  }
-    
-  if (!values.signuppassword) {
-    errors.signuppassword = 'Required field';
-  } else if (values.signuppassword.length <3) {
-    errors.signuppassword = 'Must be 3 characters or more';
-  }
-    
-  if (!values.signupconfirmpassword) {
-    errors.signupconfirmpassword = 'Required field';
-  } else if (values.signupconfirmpassword !== values.signuppassword) {
-    errors.signupconfirmpassword = 'Password not match';
-  }    
-    
-    
-  if (!values.signupfirstName) {
-    errors.signupfirstName = 'Required field';
-  }  
-    
-  if (!values.signuplastName) {
-    errors.signuplastName = 'Required field';
-  } 
-    
-  if (!isValidDate(values.signupdob)) {
-    errors.signupdob = 'Invalid date';
-  }   
-    
-  return errors;
+    if (!values.signupemail) {
+        errors.signupemail = 'Required field';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.signupemail)) {
+        errors.signupemail = 'Invalid email address';
+    }
+
+    if (!values.signuppassword) {
+        errors.signuppassword = 'Required field';
+    } else if (values.signuppassword.length <3) {
+        errors.signuppassword = 'Must be 3 characters or more';
+    }
+
+    if (!values.signupconfirmpassword) {
+        errors.signupconfirmpassword = 'Required field';
+    } else if (values.signupconfirmpassword !== values.signuppassword) {
+        errors.signupconfirmpassword = 'Password not match';
+    }    
+
+    if (!values.signupfirstName) {
+        errors.signupfirstName = 'Required field';
+    }  
+
+    if (!values.signuplastName) {
+        errors.signuplastName = 'Required field';
+    } 
+
+    if (!isValidDate(values.signupdob)) {
+        errors.signupdob = 'Invalid date';
+    }   
+
+    return errors;
 };
 
 function isValidDate(str){
@@ -170,8 +166,6 @@ function isValidDate(str){
 
 function mapDispatchToProps (dispatch) {
     return {
-        goSomewhere(url) {dispatch(routeActions.push(url));},
-        showSignupModal() {dispatch(actions.showSignupModal())},
         hideSignupModal() {dispatch(actions.hideSignupModal())},
         attemptSignupLogin(data) { dispatch(actions.attemptSignupLogin(data))},
         dismissFeedback() {dispatch(actions.dismissFeedback())}

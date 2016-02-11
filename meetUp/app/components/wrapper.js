@@ -1,12 +1,7 @@
-/*
-This is our top-level component. Sub-components matching specific routes will be
-contained in `this.props.children` and rendered out.
-*/
-
 import React, { Component } from 'react';
-import Authpanel from './components/authpanel';
-import Feedbackpanel from './components/feedbackpanel';
+import Authpanel from './authpanel';
 import Events from './events';
+import Login from './login';
 
 import { connect } from 'react-redux';
 import C from '../constants';
@@ -22,15 +17,31 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
+
 class Wrapper extends Component {
-	render() {
-		return (
-				<div className="center">
+    loginOrNot(){
+        const p = this.props;
+		if(p.auth.currently!==C.LOGGED_IN){ 
+            return(
+                <Login />
+            );
+        }
+        else{
+            return(
+                <div>
 					<Events />
 				</div>
+            );
+        }        
+    }
+    
+	render() {
+		return (
+			<div>
+				{this.loginOrNot()}
+			</div>
 		);
 	}
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wrapper);

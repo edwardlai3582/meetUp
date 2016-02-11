@@ -11,7 +11,7 @@ import { reducer as formReducer } from 'redux-form';
 const rootReducer = combineReducers({
 	auth: authReducer,
 	feedback: feedbackReducer,
-    events:     eventsReducer,
+    events: eventsReducer,
 	routing: routeReducer,
     form: formReducer,
     showModal: modalReducer,

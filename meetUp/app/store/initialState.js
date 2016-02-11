@@ -1,11 +1,6 @@
-/*
-This is the initial state of the Redux Store.
-*/
-
 import C from '../constants';
 
 export default {
-	//feedback: [],
 	feedback: {
         msg: "", 
         error: false 
@@ -18,8 +13,8 @@ export default {
     events: {
 		hasreceiveddata: false,
 		submittingnew: false,
-		states: {}, // events UI state
-		data: {} // events data
+		states: {},
+		data: {}
 	},
     showModal: {
         showSignupform:false,

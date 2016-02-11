@@ -16,6 +16,7 @@ window.initAutocomplete = ()=> {
 }
 
 class Fake extends Component {
+
     render() {
        return ( <div></div> );
     }
@@ -25,7 +26,7 @@ export default scriptLoader(
   'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMOszNOH-Bf1QX68qGtSD_9QGmJDLlP1g&signed_in=true&libraries=places&callback=initAutocomplete'
 )(Fake);
 
-
+        
 // [START region_geolocation]
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.

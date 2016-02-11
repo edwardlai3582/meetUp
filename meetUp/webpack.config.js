@@ -1,9 +1,13 @@
 var path = require('path');
 var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require('webpack');
 
 var config = {
-    entry: ['webpack/hot/dev-server',path.resolve(__dirname, 'app/index.js')],
+    entry: [
+        'webpack/hot/dev-server',
+        path.resolve(__dirname, 'app/index.js')
+    ],
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js'
@@ -13,11 +17,11 @@ var config = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/, 
-                loader: 'babel-loader',
-                query:
-                  {
+                loader: ['babel-loader'],
+                include: path.join(__dirname, 'app'),
+                query:{
                     presets:['stage-1','es2015','react']
-                  }
+                }
             },
             // SASS
             {
@@ -27,9 +31,17 @@ var config = {
         ]
     },
     plugins: [
+        ///*
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("production")
+            }
+        }),
+        //*/
         new ExtractTextPlugin('style.css', {
             allChunks: true
-        })
+        }),
+        new webpack.NoErrorsPlugin()
     ],
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
 };
