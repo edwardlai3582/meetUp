@@ -52,7 +52,7 @@ const eventsActions = {
                 if (error2) {
                     dispatch({ type: C.DISPLAY_ERROR, error: 'Submission failed! ' + error });
                 } else {
-                    dispatch({ type: C.DISPLAY_MESSAGE, message: 'Submission successfully saved!' });
+                    //dispatch({ type: C.DISPLAY_MESSAGE, message: 'Submission successfully saved!' });
                     dispatch({ type: 'HIDEEVENTMODAL'});
                 }
             });
