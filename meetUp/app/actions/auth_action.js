@@ -4,6 +4,7 @@ import Firebase from 'firebase';
 
 const fireRef = new Firebase(C.FIREBASE);
 
+
 const authActions = {
 	startListeningToAuth() {
 		return (dispatch, getState) => {
@@ -21,7 +22,19 @@ const authActions = {
 			});
 		};
 	},
+    
 	attemptSignupLogin(data) {
+ const       changeFoxDOBformat=function(s){
+            
+            if(!((typeof InstallTrigger !== 'undefined') || (false || !!document.documentMode))){
+                return s;    
+            }
+            let A = s.match(/[1-9][\d]*/g);
+            //A[2], --A[0], A[1]
+            return A[2]+'-'+A[0]+'-'+A[1];
+        }        
+
+        
 		return (dispatch) => {
 			dispatch({ type: C.ATTEMPTING_LOGIN });
 
@@ -53,7 +66,9 @@ const authActions = {
                         first_name: data.signupfirstName,
                         last_name: data.signuplastName
                       },
-                      dob: data.signupdob        
+                      employer: data.signupemployer? data.signupemployer : "",
+                      jobtitle: data.signupjobtitle? data.signupjobtitle : "",
+                      dob: data.signupdob? changeFoxDOBformat(data.signupdob) : ""        
                     });  
                   }
                 });  
@@ -61,6 +76,7 @@ const authActions = {
             });
 		};
 	},
+    
     attemptLogin(data) {
 		return (dispatch) => {
 			dispatch({ type: C.ATTEMPTING_LOGIN });
@@ -81,6 +97,7 @@ const authActions = {
             }); 
 		};
 	},
+    
 	logoutUser() {
 		return (dispatch) => {
 			dispatch({ type: C.LOGOUT });

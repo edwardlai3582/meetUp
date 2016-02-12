@@ -10,11 +10,11 @@ const eventsActions = {
 			const uid = state.auth.uid;
             var eventsRef = Ref.child('users').child(uid).child('events');
 			eventsRef.on('value', (snapshot) => {
-                //console.log(snapshot.key());
 				dispatch({ type: C.RECEIVE_EVENTS_DATA, data: snapshot.val() });
 			});
 		};
 	},
+    
 	deleteEvent(qid) {
 		return (dispatch, getState) => {
 			const state = getState();
@@ -30,6 +30,7 @@ const eventsActions = {
 			});
 		};
 	},
+    
 	submitNewEvent(data) {
 		return (dispatch, getState) => {
 			const state = getState();
@@ -43,6 +44,7 @@ const eventsActions = {
                             "host": data.eventHost,
                             "start": data.eventStartDatetime,
                             "end": data.eventEndDatetime,
+                            "guest": data.eventGuestlist,
                             "location": data.eventLocation,
                             "message": data.eventOptionalmessage?data.eventOptionalmessage:""
                            }, (error2) => {

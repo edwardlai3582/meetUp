@@ -17,18 +17,7 @@ export default (currentstate, action) => {
 			return Object.assign({}, currentstate, {
 				submittingnew: false
 			});
-		case C.START_EVENT_EDIT:
-			newstate = Object.assign({}, currentstate);
-			newstate.states[action.qid] = C.EDITING_EVENT;
-			return newstate;
-		case C.FINISH_EVENT_EDIT:
-			newstate = Object.assign({}, currentstate);
-			delete newstate.states[action.qid];
-			return newstate;
-		case C.SUBMIT_EVENT_EDIT:
-			newstate = Object.assign({}, currentstate);
-			newstate.states[action.qid] = C.SUBMITTING_EVENT;
-			return newstate;
+            
 		default: return currentstate || initialState.events;
 	}
 };

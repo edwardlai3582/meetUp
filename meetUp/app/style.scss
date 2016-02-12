@@ -92,7 +92,7 @@ body{
         width:100%;
     }  
     
-    .signupformFormlabelT{
+    .labelT{
         margin-bottom: 5px;
     }
 
@@ -102,6 +102,12 @@ body{
 
     .signupformSubmitWrapper{
         text-align: center;
+    }
+    
+    .optionalInfoWrapper{
+        position: relative;
+        width: 98%;
+        left: 2%;
     }
 }    
 
@@ -279,6 +285,17 @@ body{
             }
         }
     }    
+}
+
+.tooltipx{
+    *{
+     text-align: left;
+    }
+}
+
+.nextToToolTip{
+    display: inline;
+    margin-right: 5px;
 }
 
 //for react-select MySelectComponent

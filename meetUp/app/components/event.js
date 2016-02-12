@@ -85,6 +85,14 @@ class Event extends Component {
                 </ListGroupItem>
                 <ListGroupItem className="others">
                     <div className="otherskey">
+                        Guest List:
+                    </div>
+                    <div>
+                        {p.event.guest.replace(/,/g, ", ")}
+                    </div>
+                </ListGroupItem> 
+                <ListGroupItem className="others">
+                    <div className="otherskey">
                         Location:
                     </div>
                     <div>
@@ -107,8 +115,8 @@ class Event extends Component {
                     </div>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button bsStyle="danger" onClick={this.delete.bind(this)} >Delete</Button>
                     <Button onClick={this.close.bind(this)} >Cancel</Button>
+                    <Button bsStyle="danger" onClick={this.delete.bind(this)} >Delete</Button>
                   </Modal.Footer>
             </Modal>
             </div>    

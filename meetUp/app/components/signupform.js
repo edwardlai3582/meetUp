@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { routeActions } from 'react-router-redux';
-import { Button, Modal, Input } from 'react-bootstrap';
+import { Button, Modal, Input, Tooltip, OverlayTrigger, Glyphicon } from 'react-bootstrap';
 
 import actions from '../actions';
 
@@ -39,7 +39,17 @@ class Signupform extends Component {
     }
 
     render() {
-        const { fields: { signupfirstName, signuplastName, signupemail, signuppassword, signupconfirmpassword, signupdob}, handleSubmit } = this.props;
+        const { fields: { signupfirstName, signuplastName, signupemail, signuppassword, signupconfirmpassword, signupemployer, signupjobtitle, signupdob}, handleSubmit } = this.props;
+        const tooltip = (
+          <Tooltip className="tooltipx">
+            &bull; at least 8 characters <br /> 
+            &bull; no more then 100 characters <br />
+            &bull; at least 1 special character <br />
+            &bull; at least 1 number <br />        
+            &bull; at least 1 uppercase letter <br />  
+            &bull; at least 1 lowercase letter <br />
+          </Tooltip>
+        );
         
         return (
             <Modal show={this.props.showSignupform} onHide={this.close.bind(this)}>
@@ -57,12 +67,17 @@ class Signupform extends Component {
                     
                     {this.showAlert()}
                     
-                    <label> <div className="labelT">Password</div>
-                    <Input type="password" placeholder="password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
+                    <label>
+                        <div className="labelT nextToToolTip">Password</div>
+                        <OverlayTrigger overlay={tooltip} >
+                            <Glyphicon glyph="info-sign" />
+                        </OverlayTrigger>
+                        <Input type="password" placeholder="password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
                     </label>
                     
-                    {signuppassword.touched && signuppassword.error && <div className="signupAlert">{signuppassword.error}</div>}
-                    
+                    <div className="signupAlert">
+                        {signuppassword.touched && signuppassword.error && <div className="signupAlert" dangerouslySetInnerHTML={{__html: signuppassword.error}}></div>}
+                    </div>
                     
                     <label> <div className="labelT">Confirm Password</div>
                     <Input type="password" placeholder="confirm password" className="signupformInput" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
@@ -84,13 +99,23 @@ class Signupform extends Component {
                    
                     {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
                  
-                    
-                    <label> <div className="labelT">Date of Birth </div>
-                    <Input type="date" placeholder="yyyy-mm-dd" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
-                    </label>
-                
-                    {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}
-                   
+                    <label>{ "Public biographical information ( optional)" }</label>
+                    <div className="optionalInfoWrapper">
+                        <label> <div className="labelT">&bull; Employer </div>
+                        <Input type="text" placeholder="employer" className="signupformInput" {...signupemployer}/>
+                        </label>  
+                        
+                        <label> <div className="labelT">&bull; Job title </div>
+                        <Input type="text" placeholder="job title" className="signupformInput" {...signupjobtitle}/>
+                        </label>  
+                        
+                        <label> <div className="labelT">&bull; Date of Birth </div>
+                        <Input type="date" placeholder="MM/dd/yyyy" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
+                        </label>    
+                        
+                        {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}
+                    </div>
+
                     <div className="signupformSubmitWrapper">
                         <Button type="submit">Submit</Button>    
                     </div>
@@ -103,22 +128,70 @@ class Signupform extends Component {
 
 const validate = values => {
     const errors = {};
-
+    const isFirefoxOrIe = (typeof InstallTrigger !== 'undefined') || (false || !!document.documentMode)
+    
+    
     if (!values.signupemail) {
         errors.signupemail = 'Required field';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.signupemail)) {
+    } 
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.signupemail)) {
         errors.signupemail = 'Invalid email address';
     }
 
+    //errors.signuppassword="";
     if (!values.signuppassword) {
         errors.signuppassword = 'Required field';
-    } else if (values.signuppassword.length <3) {
-        errors.signuppassword = 'Must be 3 characters or more';
     }
-
+    else{
+        if (values.signuppassword.length < 8) {
+            errors.signuppassword = 'Must have at least 8 characters';   
+        }
+        if (values.signuppassword.length > 100) {
+            if(!errors.signuppassword) {
+                errors.signuppassword = 'No more then 100 characters';
+            }
+            else{
+                errors.signuppassword = errors.signuppassword + '<br/>'+ 'No more then 100 characters';
+            } 
+        }
+        if (!/[!@#$%^&+-]+/i.test(values.signuppassword)) {
+            if(!errors.signuppassword) {
+                errors.signuppassword = 'Must have at least 1 special character ( !, @, #, $, %, ^, &, +, -)';
+            }
+            else{
+                errors.signuppassword = errors.signuppassword + '<br/>'+ 'Must have at least 1 special character ( !, @, #, $, %, ^, &, +, -)';
+            } 
+        }
+        if (!/\d+/i.test(values.signuppassword)) {
+            if(!errors.signuppassword) {
+                errors.signuppassword = 'Must have at least 1 number';
+            }
+            else{
+                errors.signuppassword = errors.signuppassword + '<br/>'+ 'Must have at least 1 number';
+            } 
+        }
+        if (!/[A-Z]+/.test(values.signuppassword)) {
+            if(!errors.signuppassword) {
+                errors.signuppassword = 'Must have at least 1 uppercase letter';
+            }
+            else{
+                errors.signuppassword = errors.signuppassword + '<br/>'+ 'Must have at least 1 uppercase letter';
+            } 
+        }
+        if (!/[a-z]+/.test(values.signuppassword)) {
+            if(!errors.signuppassword) {
+                errors.signuppassword = 'Must have at least 1 lowercase letter';
+            }
+            else{
+                errors.signuppassword = errors.signuppassword + '<br/>'+ 'Must have at least 1 lowercase letter';
+            } 
+        }
+    }
+    
     if (!values.signupconfirmpassword) {
         errors.signupconfirmpassword = 'Required field';
-    } else if (values.signupconfirmpassword !== values.signuppassword) {
+    } 
+    else if (values.signupconfirmpassword !== values.signuppassword) {
         errors.signupconfirmpassword = 'Password not match';
     }    
 
@@ -130,39 +203,31 @@ const validate = values => {
         errors.signuplastName = 'Required field';
     } 
 
-    if (!isValidDate(values.signupdob)) {
-        errors.signupdob = 'Invalid date';
-    }   
+    if ( isFirefoxOrIe ){
+        if(!/^([0][1-9]|[1][0-2])\/([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])\/([1][9]|[2][0])[0-9][0-9]$/i.test(values.signupdob)){
+            errors.signupdob = 'Invalid date format';      
+        } 
+        else {
+            let day, A = values.signupdob.match(/[1-9][\d]*/g);
+            day = new Date(A[2], --A[0], A[1]);
+            
+            if(!(day.getMonth()== A[0] && day.getDate()== A[1])){
+                errors.signupdob = 'Invalid date format';
+            }
+            else if(day>new Date()){
+                errors.signupdob = 'yo from future?';    
+            }
+        }        
+    }
+    else {
+        let day = new Date(values.signupdob);
+        if(day>new Date()){
+            errors.signupdob = 'yo from future?';    
+        }
+    }
 
     return errors;
 };
-
-function isValidDate(str){
-	// STRING FORMAT yyyy-mm-dd
-	if(str=="" || str==null){return false;}								
-	
-	// m[1] is year 'YYYY' * m[2] is month 'MM' * m[3] is day 'DD'					
-	var m = str.match(/(\d{4})-(\d{2})-(\d{2})/);
-	
-	// STR IS NOT FIT m IS NOT OBJECT
-	if( m === null || typeof m !== 'object'){return false;}				
-	
-	// CHECK m TYPE
-	if (typeof m !== 'object' && m !== null && m.size!==3){return false;}
-				
-	var ret = true; //RETURN VALUE						
-	var thisYear = new Date().getFullYear(); //YEAR NOW
-	var minYear = 1900; //MIN YEAR
-	
-	// YEAR CHECK
-	if( (m[1].length < 4) || m[1] < minYear || m[1] > thisYear){ret = false;}
-	// MONTH CHECK			
-	if( (m[2].length < 2) || m[2] < 1 || m[2] > 12){ret = false;}
-	// DAY CHECK
-	if( (m[3].length < 2) || m[3] < 1 || m[3] > 31){ret = false;}
-	
-	return ret;			
-}
 
 function mapDispatchToProps (dispatch) {
     return {
@@ -181,7 +246,7 @@ function mapStateToProps (appState) {
 
 Signupform = reduxForm({
     form: 'signupform',
-    fields: ['signupfirstName', 'signuplastName', 'signupemail', 'signuppassword', 'signupconfirmpassword', 'signupdob'],
+    fields: ['signupfirstName', 'signuplastName', 'signupemail', 'signuppassword', 'signupconfirmpassword', 'signupemployer', 'signupjobtitle','signupdob'],
     validate
 }, mapStateToProps, mapDispatchToProps)(Signupform);
 

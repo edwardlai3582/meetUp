@@ -86,14 +86,58 @@ const validate = values => {
 
     if (!values.email) {
         errors.email = 'Required field';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    } 
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
     }
 
     if (!values.password) {
         errors.password = 'Required field';
-    } else if (values.password.length <3) {
-        errors.password = 'Must be 3 characters or more';
+    } 
+    else{
+        if (values.password.length < 8) {
+            errors.password = 'Must have at least 8 characters or more';   
+        }
+        if (values.password.length > 100) {
+            if(!errors.password) {
+                errors.password = 'No more the 100 characters';
+            }
+            else{
+                errors.password = errors.password + '<br/>'+ 'No more the 100 characters';
+            } 
+        }
+        if (!/[!@#$%^&+-]+/i.test(values.password)) {
+            if(!errors.password) {
+                errors.password = 'Must have at least 1 special character ( !, @, #, $, %, ^, &, +, -)';
+            }
+            else{
+                errors.password = errors.password + '<br/>'+ 'Must have at least 1 special character ( !, @, #, $, %, ^, &, +, -)';
+            } 
+        }
+        if (!/\d+/i.test(values.password)) {
+            if(!errors.password) {
+                errors.password = 'Must have at least 1 number';
+            }
+            else{
+                errors.password = errors.password + '<br/>'+ 'Must have at least 1 number';
+            } 
+        }
+        if (!/[A-Z]+/.test(values.password)) {
+            if(!errors.password) {
+                errors.password = 'Must have at least 1 uppercase letter';
+            }
+            else{
+                errors.password = errors.password + '<br/>'+ 'Must have at least 1 uppercase letter';
+            } 
+        }
+        if (!/[a-z]+/.test(values.password)) {
+            if(!errors.password) {
+                errors.password = 'Must have at least 1 lowercase letter';
+            }
+            else{
+                errors.password = errors.password + '<br/>'+ 'Must have at least 1 lowercase letter';
+            } 
+        }    
     }
 
     return errors;

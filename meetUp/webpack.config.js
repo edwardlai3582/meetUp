@@ -23,7 +23,6 @@ var config = {
                     presets:['stage-1','es2015','react']
                 }
             },
-            // SASS
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract('css!sass!postcss')
@@ -31,13 +30,11 @@ var config = {
         ]
     },
     plugins: [
-        ///*
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify("production")
             }
         }),
-        //*/
         new ExtractTextPlugin('style.css', {
             allChunks: true
         }),

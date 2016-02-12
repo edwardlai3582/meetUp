@@ -3,7 +3,8 @@ import { reduxForm } from 'redux-form';
 import { routeActions } from 'react-router-redux';
 import { Button, Modal, Input } from 'react-bootstrap';
 import actions from '../actions';
-import MySelectComponent from './MySelectComponent';
+import MySelectComponent from './mySelectComponent';
+//import MyMultiSelectComponent from './myMultiSelectComponent';
 
 window.autocomplete=null;
 
@@ -17,11 +18,18 @@ class Eventform extends Component {
     constructor() {
 		super();
         this.handleChange = this.handleChange.bind(this);
-        this.state = { typeOptions: [
-            { value: 'birthday party', label: 'birthday party' },
-            { value: 'conference talk', label: 'conference talk' },
-            { value: 'wedding', label: 'wedding' }
-        ]};
+        this.state = { 
+            typeOptions: [
+                { value: 'birthday party', label: 'birthday party' },
+                { value: 'conference talk', label: 'conference talk' },
+                { value: 'wedding', label: 'wedding' }
+            ],
+            guestOptions: [
+                { value: 'Pete Rock', label: 'Pete Rock' },
+                { value: 'J Dilla', label: 'J Dilla' },
+                { value: 'Sean Price', label: 'Sean Price' }
+            ],                     
+        };
 	}    
     
     componentDidMount(){
@@ -54,7 +62,7 @@ class Eventform extends Component {
     }
     
     render() {
-        const { fields: { eventName, eventType, eventHost, eventStartDatetime, eventEndDatetime, eventLocation, eventOptionalmessage }, handleSubmit } = this.props;
+        const { fields: { eventName, eventType, eventHost, eventStartDatetime, eventEndDatetime, eventGuestlist, eventLocation, eventOptionalmessage }, handleSubmit } = this.props;
         
         return (
             <div className="eventformFormWrapper">
@@ -70,7 +78,7 @@ class Eventform extends Component {
                         
                     <div>
                         <label><div className="eventlabelT">Type</div>
-   <MySelectComponent {...eventType} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions}/>
+                           <MySelectComponent {...eventType} multi={false} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions}/>
                         </label>    
                     </div>
                           
@@ -99,7 +107,15 @@ class Eventform extends Component {
                     </div>
                         
                     {eventEndDatetime.touched && eventEndDatetime.error && <div className="signupAlert">{eventEndDatetime.error}</div>}     
-                        
+                    
+        <div>
+            <label><div className="eventlabelT">Guest list</div>
+               <MySelectComponent multi={true} {...eventGuestlist} alert={eventGuestlist.touched && eventGuestlist.invalid} options={this.state.guestOptions}/>
+            </label>    
+        </div>
+
+         {eventGuestlist.touched && eventGuestlist.error && <div className="signupAlert">{eventGuestlist.error}</div>} 
+                    
                     <div>
                         <label><div className="eventlabelT">Location</div>
                             <Input id="autocomplete" placeholder="Enter your address" bsStyle={eventLocation.touched && eventLocation.invalid ? 'error' : null} type="text" {...eventLocation}/>
@@ -134,7 +150,7 @@ class Eventform extends Component {
 
 const validate = values => {
     const errors = {};
-    const isFirefox = typeof InstallTrigger !== 'undefined';
+    const isFirefoxOrIe = (typeof InstallTrigger !== 'undefined') || (false || !!document.documentMode);
 
     if (!values.eventName) {
         errors.eventName = 'Required field';
@@ -151,7 +167,7 @@ const validate = values => {
     if (!values.eventStartDatetime) {
         errors.eventStartDatetime = 'Required field';
     } 
-    else if ( isFirefox ) {
+    else if ( isFirefoxOrIe ) {
         if(!/^([0][1-9]|[1][0-2])\/([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])\/[1-2][0-9][0-9][0-9]\s([0-1][0-9]|[2][0-3]):([0-5][0-9])$/i.test(values.eventStartDatetime)){
             errors.eventStartDatetime = 'Invalid time format';      
         } 
@@ -167,7 +183,7 @@ const validate = values => {
     if (!values.eventEndDatetime) {
         errors.eventEndDatetime = 'Required field';
     } 
-    else if ( isFirefox ) {
+    else if ( isFirefoxOrIe ) {
         if(!/^([0][1-9]|[1][0-2])\/([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])\/[1-2][0-9][0-9][0-9]\s([0-1][0-9]|[2][0-3]):([0-5][0-9])$/i.test(values.eventEndDatetime)){
             errors.eventEndDatetime = 'Invalid time format';      
         } 
@@ -181,9 +197,13 @@ const validate = values => {
     } 
 
     if ( new Date(values.eventStartDatetime) >= new Date(values.eventEndDatetime) ) {
-        errors.eventEndDatetime = 'End date should be before start date';     
+        errors.eventEndDatetime = 'End date should be after start date';     
     }     
-
+    
+    if (!values.eventGuestlist) {
+        errors.eventGuestlist = 'Required field';
+    }
+    
     if (!values.eventLocation) {
         errors.eventLocation = 'Required field';
     } 
@@ -208,23 +228,12 @@ function mapStateToProps (appState) {
 
 Eventform = reduxForm({
     form: 'eventform',
-    fields: ['eventName', 'eventType', 'eventHost', 'eventStartDatetime', 'eventEndDatetime', 'eventLocation', 'eventOptionalmessage'],
+    fields: ['eventName', 'eventType', 'eventHost', 'eventStartDatetime', 'eventEndDatetime', 'eventGuestlist', 'eventLocation', 'eventOptionalmessage'],
     validate
 }, mapStateToProps, mapDispatchToProps)(Eventform);
 
 export default Eventform;
 
- 
- 
- /*
-                         <Input list="browsers" type="text" placeholder="event Type" bsStyle={eventType.touched && eventType.invalid ? 'error' : null} {...eventType}/>
-                        <datalist id="browsers">
-                          <option value="birthday party"/>
-                          <option value="conference talk"/>  
-                          <option value="wedding"/>        
-                        </datalist>
-                        </label>
- */
  
  
  
