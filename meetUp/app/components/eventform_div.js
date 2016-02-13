@@ -27,7 +27,8 @@ class Eventform extends Component {
                 { value: 'Pete Rock', label: 'Pete Rock' },
                 { value: 'J Dilla', label: 'J Dilla' },
                 { value: 'Sean Price', label: 'Sean Price' }
-            ],                     
+            ],
+            landscape: "labelbasic landscape"
         };
 	}    
     
@@ -36,11 +37,30 @@ class Eventform extends Component {
         autocomplete.addListener('place_changed', ()=>{
             this.handleChange(autocomplete.getPlace().formatted_address); 
         });
+        window.addEventListener('resize', this.handleResize.bind(this));
+        if(window.innerWidth>window.innerHeight){
+            this.setState({ landscape: "labelbasic landscape" });    
+        }
+        else{
+            this.setState({ landscape: "labelbasic" });    
+        }
     }
     
     componentWillReceiveProps(nextProps) {
         if(this.props.auth.currently !== 'LOGGED_IN'){
             this.props.goSomewhere('/');
+        }
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize.bind(this));
+    }
+    
+    handleResize(e) {
+        if(window.innerWidth>window.innerHeight){
+            this.setState({ landscape: "labelbasic landscape" });    
+        }
+        else{
+            this.setState({ landscape: "labelbasic" });    
         }
     }
     
@@ -67,80 +87,76 @@ class Eventform extends Component {
             <div className="eventformFormWrapper">
                 <div className="eventformFormTitle">Create New Event</div>
                 <form className="eventformForm" autocomplete="on" onSubmit={handleSubmit(this.addEvent.bind(this))}>
-                    <div>
-                        <label for="eventName">
-                            <div className="eventlabelT">Name</div>
-                            <Input type="text" placeholder="enter event name" bsStyle={eventName.touched && eventName.invalid ? 'error' : null} {...eventName} autoFocus />
-                        </label>
-                    </div>
-                        
-                    {eventName.touched && eventName.error && <div className="signupAlert">{eventName.error}</div>}    
-                        
-                    <div>
-                        <label for="eventType">
-                            <div className="eventlabelT">Type</div>
-                            <MySelectComponent {...eventType} multi={false} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions} placeholder="enter event type"/>
-                        </label>    
-                    </div>
-                          
-                     {eventType.touched && eventType.error && <div className="signupAlert">{eventType.error}</div>}       
 
-                    <div>
-                        <label for="eventHost">
-                            <div className="eventlabelT">Host</div>
-                            <Input type="text" placeholder="enter event Host" bsStyle={eventHost.touched && eventHost.invalid ? 'error' : null} {...eventHost}/>
-                        </label>
-                    </div>
-                        
-                     {eventHost.touched && eventHost.error && <div className="signupAlert">{eventHost.error}</div>}     
-                        
-                    <div>
-                        <label for="eventStartDatetime">
-                            <div className="eventlabelT">Start date and time</div>
+                    <label for="eventName" className={this.state.landscape}> 
+                        <div className="labelTitle">Name</div>
+                        <div className="labelInput">
+                            <Input type="text" placeholder="enter event name" bsStyle={eventName.touched && eventName.invalid ? 'error' : null} {...eventName} autoFocus />
+                        </div>    
+                    </label>         
+
+                    {eventName.touched && eventName.error && <div className="signupAlert">{eventName.error}</div>}    
+
+                    <label for="eventType" className={this.state.landscape}> 
+                        <div className="labelTitle">Type</div>
+                        <div className="labelInput">
+                            <MySelectComponent {...eventType} multi={false} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions} placeholder="enter event type"/>
+                        </div>    
+                    </label> 
+
+                    {eventType.touched && eventType.error && <div className="signupAlert">{eventType.error}</div>}       
+                    <label for="eventHost" className={this.state.landscape}> 
+                        <div className="labelTitle">Host </div>
+                        <div className="labelInput">
+                            <Input type="text" placeholder="enter event host" bsStyle={eventHost.touched && eventHost.invalid ? 'error' : null} {...eventHost}/>
+                        </div>    
+                    </label> 
+
+                    {eventHost.touched && eventHost.error && <div className="signupAlert">{eventHost.error}</div>}    
+
+                    <label for="eventStartDatetime" className={this.state.landscape}> 
+                        <div className="labelTitle">Start date/time</div>
+                        <div className="labelInput">
                             <Input type="datetime-local" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventStartDatetime.touched && eventStartDatetime.invalid ? 'error' : null} {...eventStartDatetime}/>
-                        </label>
-                    </div>
-                        
+                        </div>    
+                    </label> 
+
                     {eventStartDatetime.touched && eventStartDatetime.error && <div className="signupAlert">{eventStartDatetime.error}</div>}     
-                        
-                    <div>
-                        <label for="eventEndDatetime">
-                            <div className="eventlabelT">End date and time</div>
+
+                    <label for="eventEndDatetime" className={this.state.landscape}> 
+                        <div className="labelTitle">End date/time</div>
+                        <div className="labelInput">
                             <Input type="datetime-local" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventEndDatetime.touched && eventEndDatetime.invalid ? 'error' : null} {...eventEndDatetime}/>
-                        </label>
-                    </div>
-                        
+                        </div>    
+                    </label> 
+
                     {eventEndDatetime.touched && eventEndDatetime.error && <div className="signupAlert">{eventEndDatetime.error}</div>}     
-                    
-                    <div>
-                        <label for="eventGuestlist">
-                            <div className="eventlabelT">Guest list</div>
+
+                    <label for="eventGuestlist" className={this.state.landscape}> 
+                        <div className="labelTitle">Guest list</div>
+                        <div className="labelInput">
                             <MySelectComponent multi={true} placeholder="enter guest list" {...eventGuestlist} alert={eventGuestlist.touched && eventGuestlist.invalid} options={this.state.guestOptions}/>
-                        </label>    
-                    </div>
+                        </div>    
+                    </label> 
 
                     {eventGuestlist.touched && eventGuestlist.error && <div className="signupAlert">{eventGuestlist.error}</div>} 
-                    
-                    <div>
-                        <label for="eventLocation">
-                            <div className="eventlabelT">Location</div>
-                            <Input id="autocomplete" placeholder="enter your address" bsStyle={eventLocation.touched && eventLocation.invalid ? 'error' : null} type="text" {...eventLocation}/>
-                         
-                        </label>
-                    </div>
-                    
-                    {eventLocation.touched && eventLocation.error && <div className="signupAlert">{eventLocation.error}</div>}           
-                            
-                    
-                    <div>
-                        <label for="eventOptionalmessage">
-                            <div className="eventlabelT">Message (optional)</div>
+
+                    <label for="eventLocation" className={this.state.landscape}> 
+                        <div className="labelTitle">Location</div>
+                        <div className="labelInput">
+                            <Input id="autocomplete" placeholder="enter event address" bsStyle={eventLocation.touched && eventLocation.invalid ? 'error' : null} type="text" {...eventLocation}/>
+                        </div>    
+                    </label> 
+
+                    {eventLocation.touched && eventLocation.error && <div className="signupAlert">{eventLocation.error}</div>}                                   
+
+                    <label for="eventOptionalmessage" className={this.state.landscape}> 
+                        <div className="labelTitle">Message (optional)</div>
+                        <div className="labelInput">
                             <Input type="textarea" placeholder="enter optional message" {...eventOptionalmessage}/>
-                        </label>            
-                    </div> 
-                        
-                        
-     
+                        </div>    
+                    </label> 
+
                     <div className="eventformSubmitWrapper">
                         <Button bsStyle="warning" onClick={this.cancel.bind(this)} onTouchEnd={this.cancel.bind(this)} >
                             Cancel
@@ -153,7 +169,6 @@ class Eventform extends Component {
         );
     }
 }
-
 
 const validate = values => {
     const errors = {};

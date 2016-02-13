@@ -9,13 +9,18 @@ class Signupform extends Component {
     constructor() {
 		super();
 		this.state = {  lastemail: "",
-                        windowWidth: window.innerWidth,
-                        windowHeight: window.innerHeight
+                        landscape: "labelbasic landscape"
                      };
 	}
     
     componentDidMount() {
         window.addEventListener('resize', this.handleResize.bind(this));
+        if(window.innerWidth>window.innerHeight){
+            this.setState({ landscape: "labelbasic landscape" });    
+        }
+        else{
+            this.setState({ landscape: "labelbasic" });    
+        }
     }
         
     componentWillUnmount() {
@@ -23,9 +28,12 @@ class Signupform extends Component {
     }
     
     handleResize(e) {
-        this.setState({ windowWidth: window.innerWidth,
-                        windowHeight: window.innerHeight
-                      });
+        if(window.innerWidth>window.innerHeight){
+            this.setState({ landscape: "labelbasic landscape" });    
+        }
+        else{
+            this.setState({ landscape: "labelbasic" });    
+        }
     }
     
     close() {
@@ -75,70 +83,91 @@ class Signupform extends Component {
               </Modal.Header>
               <Modal.Body>
                 <form className="signupformForm" onSubmit={handleSubmit(this.signUp.bind(this))} autocomplete="on" >
-                    <label for="signupemail" >
-                        <div className="labelT">Email</div> 
-                        <Input type="email" value={this.props.loginemail} placeholder="enter your email" className="signupformInput" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus />
-                    </label>
+
+                <label for="signupemail" className={this.state.landscape}> 
+                    <div className="labelTitle">Email</div>
+                    <div className="labelInput">
+                        <Input type="email" value={this.props.loginemail} placeholder="enter your email" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus />
+                    </div>    
+                </label>                     
                     
-                    {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}               
+                {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}               
                    
-                    {this.showAlert()}
+                {this.showAlert()}
                     
-                    <label for="signuppassword" >
-                        <div className="labelT nextToToolTip" >Password</div>
-                        <OverlayTrigger overlay={tooltip} >
+                <label for="signuppassword" className={this.state.landscape}> 
+                    <div className="nextToToolTip">Password</div>
+                    <div className="labelTooltip">
+                        <OverlayTrigger placement="top" overlay={tooltip} >
                             <Glyphicon glyph="info-sign" />
                         </OverlayTrigger>
-                        <Input type="password" placeholder="enter your password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
-                    </label>
+                    </div>        
+                    <div className="labelInput">
+                        <Input type="password" placeholder="enter your password" bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
+                    </div>    
+                </label>    
+                        
+                <div className="signupAlert">
+                    {signuppassword.touched && signuppassword.error && <div dangerouslySetInnerHTML={{__html: signuppassword.error}}></div>}
+                </div>
                     
-                    <div className="signupAlert">
-                        {signuppassword.touched && signuppassword.error && <div className="signupAlert" dangerouslySetInnerHTML={{__html: signuppassword.error}}></div>}
-                    </div>
+
+                <label for="signupconfirmpassword" className={this.state.landscape}> 
+                    <div className="labelTitle">Confirm Password</div>
+                    <div className="labelInput">
+                        <Input type="password" placeholder="confirm your password" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
+                    </div>    
+                </label>       
+                        
+                {signupconfirmpassword.touched && signupconfirmpassword.error && <div  className="signupAlert">{signupconfirmpassword.error}</div>}
                     
-                    <label for="signupconfirmpassword" > 
-                        <div className="labelT">Confirm Password</div>
-                        <Input type="password" placeholder="confirm your password" className="signupformInput" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
-                    </label>
                     
-                    {signupconfirmpassword.touched && signupconfirmpassword.error && <div  className="signupAlert">{signupconfirmpassword.error}</div>}
-                    
-                    
-                    <label for="signupfirstName" > 
-                        <div className="labelT">First Name </div>
-                        <Input type="text" placeholder="enter your first Name" className="signupformInput" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
-                    </label>
-                    
-                    {signupfirstName.touched && signupfirstName.error && <div className="signupAlert">{signupfirstName.error}</div>}
+                <label for="signupfirstName" className={this.state.landscape}> 
+                    <div className="labelTitle">First Name</div>
+                    <div className="labelInput">
+                        <Input type="text" placeholder="enter your first Name" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
+                    </div>    
+                </label>      
+                        
+                {signupfirstName.touched && signupfirstName.error && <div className="signupAlert">{signupfirstName.error}</div>}
                    
                     
-                    <label for="signuplastName" > 
-                        <div className="labelT">Last Name </div>
-                        <Input type="text" placeholder="enter your last Name" className="signupformInput" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
-                    </label>
-                   
-                    {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
+                <label for="signuplastName" className={this.state.landscape}> 
+                    <div className="labelTitle">Last Name</div>
+                    <div className="labelInput">
+                        <Input type="text" placeholder="enter your last Name" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
+                    </div>    
+                </label>   
+                        
+                {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
                  
-                    <div className="signupOptionalTitle">{ "Public biographical information ( optional)" }</div>
+                <div className="signupOptionalTitle">{ "Public biographical information ( optional)" }</div>
                     <div className="optionalInfoWrapper">
-                        <label for="signupemployer" > 
-                            <div className="labelT">&bull; Employer </div>
-                            <Input type="text" placeholder="enter your employer" className="signupformInput" {...signupemployer}/>
-                        </label>  
-                        
-                        <label for="signupjobtitle" > 
-                            <div className="labelT">&bull; Job title </div>
-                            <Input type="text" placeholder="enter your job title" className="signupformInput" {...signupjobtitle}/>
-                        </label>  
-                        
-                        <label for="signupdob" > 
-                            <div className="labelT">&bull; Date of Birth </div>
-                            <Input type="date" placeholder="MM/dd/yyyy" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
-                        </label>    
-                        
+ 
+                        <label for="signupemployer" className={this.state.landscape}> 
+                            <div className="labelTitle">&bull; Employer </div>
+                            <div className="labelInput">
+                                <Input type="text" placeholder="enter your employer" {...signupemployer}/>   
+                            </div>    
+                        </label>                         
+
+                        <label for="signupjobtitle" className={this.state.landscape}> 
+                            <div className="labelTitle">&bull; Job title </div>
+                            <div className="labelInput">
+                                <Input type="text" placeholder="enter your job title" {...signupjobtitle}/>
+                            </div>    
+                        </label>                         
+  
+                        <label for="signupdob" className={this.state.landscape}> 
+                            <div className="labelTitle">&bull; Date of Birth</div>
+                            <div className="labelInput">
+                                <Input type="date" placeholder="MM/dd/yyyy" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
+                            </div>    
+                        </label>     
+                                
                         {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}
                     </div>
-
+                            
                     <div className="signupformSubmitWrapper">
                         <Button type="submit">Submit</Button>    
                     </div>
@@ -148,7 +177,16 @@ class Signupform extends Component {
         );
     }
 }
-
+/*
+<label for="signupdob" className={this.state.landscape}> 
+    <div className="labelTitle">Job title </div>
+    <div className="labelInput">
+        <Input type="text" placeholder="enter your job title" />
+    </div>    
+</label> 
+*/
+                     
+                     
 const validate = values => {
     const errors = {};
     const isFirefoxOrIe = (typeof InstallTrigger !== 'undefined') || (false || !!document.documentMode)
@@ -161,7 +199,6 @@ const validate = values => {
         errors.signupemail = 'Invalid email address';
     }
 
-    //errors.signuppassword="";
     if (!values.signuppassword) {
         errors.signuppassword = 'Required field';
     }
