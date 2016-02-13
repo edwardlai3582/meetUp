@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { routeActions } from 'react-router-redux';
-import { Button, Modal, Input, Tooltip, OverlayTrigger, Glyphicon } from 'react-bootstrap';
+import { Button, Modal, Input, Tooltip, OverlayTrigger, Glyphicon, Grid,Row,Col } from 'react-bootstrap';
 
 import actions from '../actions';
 
 class Signupform extends Component {
     constructor() {
 		super();
-		this.state = { lastemail: ""};
+		this.state = {  lastemail: "",
+                        windowWidth: window.innerWidth,
+                        windowHeight: window.innerHeight
+                     };
 	}
+    
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize.bind(this));
+    }
+        
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize.bind(this));
+    }
+    
+    handleResize(e) {
+        this.setState({ windowWidth: window.innerWidth,
+                        windowHeight: window.innerHeight
+                      });
+    }
     
     close() {
         this.props.hideSignupModal();
-        this.props.resetForm();
+        //this.props.resetForm();
         this.props.dismissFeedback();
     }
     
@@ -57,60 +74,66 @@ class Signupform extends Component {
                 <Modal.Title className="signupformTitle">Sign up</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <form className="signupformForm" onSubmit={handleSubmit(this.signUp.bind(this))}>
-                    <label><div className="signupformFormlabelT">Email</div> 
-                    <Input type="email"  placeholder="email" className="signupformInput" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus="true"/>
+                <form className="signupformForm" onSubmit={handleSubmit(this.signUp.bind(this))} autocomplete="on" >
+                    <label for="signupemail" >
+                        <div className="labelT">Email</div> 
+                        <Input type="email" value={this.props.loginemail} placeholder="enter your email" className="signupformInput" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus />
                     </label>
                     
-                    {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}
-                    
-                    
+                    {signupemail.touched && signupemail.error && <div className="signupAlert">{signupemail.error}</div>}               
+                   
                     {this.showAlert()}
                     
-                    <label>
-                        <div className="labelT nextToToolTip">Password</div>
+                    <label for="signuppassword" >
+                        <div className="labelT nextToToolTip" >Password</div>
                         <OverlayTrigger overlay={tooltip} >
                             <Glyphicon glyph="info-sign" />
                         </OverlayTrigger>
-                        <Input type="password" placeholder="password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
+                        <Input type="password" placeholder="enter your password" className="signupformInput"  bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
                     </label>
                     
                     <div className="signupAlert">
                         {signuppassword.touched && signuppassword.error && <div className="signupAlert" dangerouslySetInnerHTML={{__html: signuppassword.error}}></div>}
                     </div>
                     
-                    <label> <div className="labelT">Confirm Password</div>
-                    <Input type="password" placeholder="confirm password" className="signupformInput" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
+                    <label for="signupconfirmpassword" > 
+                        <div className="labelT">Confirm Password</div>
+                        <Input type="password" placeholder="confirm your password" className="signupformInput" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
                     </label>
                     
                     {signupconfirmpassword.touched && signupconfirmpassword.error && <div  className="signupAlert">{signupconfirmpassword.error}</div>}
                     
                     
-                    <label> <div className="labelT">First Name </div>
-                    <Input type="text" placeholder="first Name" className="signupformInput" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
+                    <label for="signupfirstName" > 
+                        <div className="labelT">First Name </div>
+                        <Input type="text" placeholder="enter your first Name" className="signupformInput" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
                     </label>
                     
                     {signupfirstName.touched && signupfirstName.error && <div className="signupAlert">{signupfirstName.error}</div>}
                    
                     
-                    <label> <div className="labelT">Last Name </div>
-                    <Input type="text" placeholder="last Name" className="signupformInput" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
+                    <label for="signuplastName" > 
+                        <div className="labelT">Last Name </div>
+                        <Input type="text" placeholder="enter your last Name" className="signupformInput" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
                     </label>
                    
                     {signuplastName.touched && signuplastName.error && <div className="signupAlert">{signuplastName.error}</div>}
                  
-                    <label>{ "Public biographical information ( optional)" }</label>
+                    <div className="signupOptionalTitle">{ "Public biographical information ( optional)" }</div>
                     <div className="optionalInfoWrapper">
-                        <label> <div className="labelT">&bull; Employer </div>
-                        <Input type="text" placeholder="employer" className="signupformInput" {...signupemployer}/>
+                        <label for="signupemployer" > 
+                            <div className="labelT">&bull; Employer </div>
+                            <Input type="text" placeholder="enter your employer" className="signupformInput" {...signupemployer}/>
                         </label>  
                         
-                        <label> <div className="labelT">&bull; Job title </div>
-                        <Input type="text" placeholder="job title" className="signupformInput" {...signupjobtitle}/>
+                        <label for="signupjobtitle" > 
+                            <div className="labelT">&bull; Job title </div>
+                            <Input type="text" placeholder="enter your job title" className="signupformInput" {...signupjobtitle}/>
                         </label>  
                         
-                        <label> <div className="labelT">&bull; Date of Birth </div>
-                        <Input type="date" placeholder="MM/dd/yyyy" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
+                        <label for="signupdob" > 
+                            <div className="labelT">&bull; Date of Birth </div>
+                            <Input type="date" placeholder="MM/dd/yyyy" className="signupformInput" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
                         </label>    
                         
                         {signupdob.touched && signupdob.error && <div className="signupAlert">{signupdob.error}</div>}

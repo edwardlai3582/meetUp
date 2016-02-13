@@ -8,18 +8,13 @@ import actions from '../actions';
 
 class Login extends Component {
 
-    close() {
-        this.props.hideSignupModal();
-    }
-
     open() {
         this.props.showSignupModal();
         this.props.dismissFeedback();
-        this.props.resetForm();
+        //this.props.resetForm();
     }
     
     signIn(data) {
-        console.log(data);
         this.props.attemptLogin(data);
     }
 
@@ -46,23 +41,23 @@ class Login extends Component {
             <h1 className="loginTitle">
                 MeetUp Planner
             </h1>
-            <form onSubmit={handleSubmit(this.signIn.bind(this))}>
+            <form autocomplete="on" onSubmit={handleSubmit(this.signIn.bind(this))} >
             <div>
-                <label>
-                <Input type="email" placeholder="Email" autoComplete="email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email} autoComplete="true"/>
+                <label for="email">
+                <Input type="email" placeholder="enter your email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email} autoFocus />
                 </label>
             </div>
-            <div className="signinAlert">
-                {email.touched && email.error && <div>{email.error}</div>}
+            <div className="signinemailAlert">
+                {email.touched && email.error? email.error : ""}
             </div>  
                 
             <div>
-                <label>
-                <Input type="password" placeholder="Password" bsStyle={password.touched && password.invalid ? 'error' : null} {...password}/>
+                <label password>
+                <Input type="password" placeholder="enter your password" bsStyle={password.touched && password.invalid ? 'error' : null} {...password}/>
                 </label>
             </div>
             <div className="signinAlert">
-                {password.touched && password.error && <div>{password.error}</div>}
+                {password.touched && password.error && <div dangerouslySetInnerHTML={{__html: password.error}}></div>}
             </div>     
                 
             { this.showAlert() }
@@ -74,7 +69,7 @@ class Login extends Component {
               Sign up
             </ButtonInput>
           
-            <Signupform />
+            <Signupform loginemail={email.value} />
             </div>
         );
     }

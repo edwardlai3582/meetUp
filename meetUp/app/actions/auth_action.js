@@ -24,13 +24,12 @@ const authActions = {
 	},
     
 	attemptSignupLogin(data) {
- const       changeFoxDOBformat=function(s){
-            
+        const changeFoxDOBformat= (s)=>{
             if(!((typeof InstallTrigger !== 'undefined') || (false || !!document.documentMode))){
                 return s;    
             }
             let A = s.match(/[1-9][\d]*/g);
-            //A[2], --A[0], A[1]
+    
             return A[2]+'-'+A[0]+'-'+A[1];
         }        
 

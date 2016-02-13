@@ -21,7 +21,6 @@ body{
 
 .loginWrapper *{
     width: 100%;
-    margin-bottom: 5px;
 }
 
 .loginTitle{
@@ -33,6 +32,7 @@ body{
 }
 
 .loginB{
+    margin-top: 20px;
     background-color: #F2806C;
     border-width: 0px;
     color: white;
@@ -56,8 +56,19 @@ body{
 
 
 .signinAlert{
+    position: relative;
+    top:-10px;
     color: #A94442;
     text-align: left;
+}
+
+.signinemailAlert{
+    position: relative;
+    top:-10px;
+    color: #A94442;
+    text-align: left;
+    height: 20px;
+    overflow: hidden;
 }
 
 .signUpB{
@@ -88,6 +99,8 @@ body{
 }
 
 .signupformForm{
+    width:100%;
+    
     label{
         width:100%;
     }  
@@ -97,7 +110,7 @@ body{
     }
 
     .signupformInput{
-        width:100%;    
+                  
     }
 
     .signupformSubmitWrapper{
@@ -108,6 +121,10 @@ body{
         position: relative;
         width: 98%;
         left: 2%;
+    }
+    
+    .signupOptionalTitle{
+        font-weight: bolder;
     }
 }    
 
@@ -296,6 +313,17 @@ body{
 .nextToToolTip{
     display: inline;
     margin-right: 5px;
+}
+
+.landscape{
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    width:100%;
+    .signupformInput{
+        width: 300px;
+        margin-left: 5px;
+    }
 }
 
 //for react-select MySelectComponent
