@@ -5,7 +5,7 @@ import { Button, Modal, Input } from 'react-bootstrap';
 import actions from '../actions';
 import MySelectComponent from './mySelectComponent';
 
-window.autocomplete=null;
+window.eventLocation=null;
 
 class Eventform extends Component {
     
@@ -33,9 +33,9 @@ class Eventform extends Component {
 	}    
     
     componentDidMount(){
-        autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')));
-        autocomplete.addListener('place_changed', ()=>{
-            this.handleChange(autocomplete.getPlace().formatted_address); 
+        eventLocation = new google.maps.places.Autocomplete((document.getElementById('eventLocation')));
+        eventLocation.addListener('place_changed', ()=>{
+            this.handleChange(eventLocation.getPlace().formatted_address); 
         });
         window.addEventListener('resize', this.handleResize.bind(this));
         if(window.innerWidth>window.innerHeight){
@@ -91,7 +91,7 @@ class Eventform extends Component {
                     <label for="eventName" className={this.state.landscape}> 
                         <div className="labelTitle">Name</div>
                         <div className="labelInput">
-                            <Input type="text" placeholder="enter event name" bsStyle={eventName.touched && eventName.invalid ? 'error' : null} {...eventName} autoFocus />
+                            <Input type="text" id="eventName" placeholder="enter event name" bsStyle={eventName.touched && eventName.invalid ? 'error' : null} {...eventName} autoFocus />
                         </div>    
                     </label>         
 
@@ -100,15 +100,16 @@ class Eventform extends Component {
                     <label for="eventType" className={this.state.landscape}> 
                         <div className="labelTitle">Type</div>
                         <div className="labelInput">
-                            <MySelectComponent {...eventType} multi={false} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions} placeholder="enter event type"/>
+                            <MySelectComponent id="eventType" {...eventType} multi={false} alert={eventType.touched && eventType.invalid} options={this.state.typeOptions} placeholder="enter event type"/>
                         </div>    
                     </label> 
 
-                    {eventType.touched && eventType.error && <div className="signupAlert">{eventType.error}</div>}       
+                    {eventType.touched && eventType.error && <div className="signupAlert">{eventType.error}</div>} 
+                    
                     <label for="eventHost" className={this.state.landscape}> 
                         <div className="labelTitle">Host </div>
                         <div className="labelInput">
-                            <Input type="text" placeholder="enter event host" bsStyle={eventHost.touched && eventHost.invalid ? 'error' : null} {...eventHost}/>
+                            <Input type="text" id="eventHost" placeholder="enter event host" bsStyle={eventHost.touched && eventHost.invalid ? 'error' : null} {...eventHost}/>
                         </div>    
                     </label> 
 
@@ -117,7 +118,7 @@ class Eventform extends Component {
                     <label for="eventStartDatetime" className={this.state.landscape}> 
                         <div className="labelTitle">Start date/time</div>
                         <div className="labelInput">
-                            <Input type="datetime-local" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventStartDatetime.touched && eventStartDatetime.invalid ? 'error' : null} {...eventStartDatetime}/>
+                            <Input type="datetime-local" id="eventStartDatetime" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventStartDatetime.touched && eventStartDatetime.invalid ? 'error' : null} {...eventStartDatetime}/>
                         </div>    
                     </label> 
 
@@ -126,7 +127,7 @@ class Eventform extends Component {
                     <label for="eventEndDatetime" className={this.state.landscape}> 
                         <div className="labelTitle">End date/time</div>
                         <div className="labelInput">
-                            <Input type="datetime-local" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventEndDatetime.touched && eventEndDatetime.invalid ? 'error' : null} {...eventEndDatetime}/>
+                            <Input type="datetime-local" id="eventEndDatetime" placeholder="MM/dd/yyyy hh:mm" bsStyle={eventEndDatetime.touched && eventEndDatetime.invalid ? 'error' : null} {...eventEndDatetime}/>
                         </div>    
                     </label> 
 
@@ -135,7 +136,7 @@ class Eventform extends Component {
                     <label for="eventGuestlist" className={this.state.landscape}> 
                         <div className="labelTitle">Guest list</div>
                         <div className="labelInput">
-                            <MySelectComponent multi={true} placeholder="enter guest list" {...eventGuestlist} alert={eventGuestlist.touched && eventGuestlist.invalid} options={this.state.guestOptions}/>
+                            <MySelectComponent multi={true} id="eventGuestlist" placeholder="enter guest list" {...eventGuestlist} alert={eventGuestlist.touched && eventGuestlist.invalid} options={this.state.guestOptions}/>
                         </div>    
                     </label> 
 
@@ -144,7 +145,7 @@ class Eventform extends Component {
                     <label for="eventLocation" className={this.state.landscape}> 
                         <div className="labelTitle">Location</div>
                         <div className="labelInput">
-                            <Input id="autocomplete" placeholder="enter event address" bsStyle={eventLocation.touched && eventLocation.invalid ? 'error' : null} type="text" {...eventLocation}/>
+                            <Input id="eventLocation" placeholder="enter event address" bsStyle={eventLocation.touched && eventLocation.invalid ? 'error' : null} type="text" {...eventLocation}/>
                         </div>    
                     </label> 
 
@@ -153,7 +154,7 @@ class Eventform extends Component {
                     <label for="eventOptionalmessage" className={this.state.landscape}> 
                         <div className="labelTitle">Message (optional)</div>
                         <div className="labelInput">
-                            <Input type="textarea" placeholder="enter optional message" {...eventOptionalmessage}/>
+                            <Input type="textarea" id="eventOptionalmessage" placeholder="enter optional message" {...eventOptionalmessage}/>
                         </div>    
                     </label> 
 

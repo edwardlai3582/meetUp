@@ -44,7 +44,7 @@ class Login extends Component {
             <form autocomplete="on" onSubmit={handleSubmit(this.signIn.bind(this))} >
             <div>
                 <label for="email">
-                <Input type="email" placeholder="enter your email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email} autoFocus />
+                <Input type="email" id="email" placeholder="enter your email" bsStyle={email.touched && email.invalid ? 'error' : null} {...email} autoFocus />
                 </label>
             </div>
             <div className="signinemailAlert">
@@ -52,8 +52,8 @@ class Login extends Component {
             </div>  
                 
             <div>
-                <label password>
-                <Input type="password" placeholder="enter your password" bsStyle={password.touched && password.invalid ? 'error' : null} {...password}/>
+                <label for="password">
+                <Input type="password" id="password" placeholder="enter your password" bsStyle={password.touched && password.invalid ? 'error' : null} {...password} />
                 </label>
             </div>
             <div className="signinAlert">

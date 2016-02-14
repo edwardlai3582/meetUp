@@ -87,7 +87,7 @@ class Signupform extends Component {
                 <label for="signupemail" className={this.state.landscape}> 
                     <div className="labelTitle">Email</div>
                     <div className="labelInput">
-                        <Input type="email" value={this.props.loginemail} placeholder="enter your email" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus />
+                        <Input type="email" id="signupemail" value={this.props.loginemail} placeholder="enter your email" bsStyle={signupemail.touched && signupemail.invalid ? 'error' : this.props.feedback.msg &&this.state.lastemail===signupemail.value?'error':null} {...signupemail} autoFocus />
                     </div>    
                 </label>                     
                     
@@ -103,7 +103,7 @@ class Signupform extends Component {
                         </OverlayTrigger>
                     </div>        
                     <div className="labelInput">
-                        <Input type="password" placeholder="enter your password" bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
+                        <Input type="password" id="signuppassword" placeholder="enter your password" bsStyle={signuppassword.touched && signuppassword.invalid ? 'error' : null} {...signuppassword}/>
                     </div>    
                 </label>    
                         
@@ -115,7 +115,7 @@ class Signupform extends Component {
                 <label for="signupconfirmpassword" className={this.state.landscape}> 
                     <div className="labelTitle">Confirm Password</div>
                     <div className="labelInput">
-                        <Input type="password" placeholder="confirm your password" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
+                        <Input type="password" id="signupconfirmpassword" placeholder="confirm your password" bsStyle={signupconfirmpassword.touched && signupconfirmpassword.invalid ? 'error' : null} {...signupconfirmpassword}/>
                     </div>    
                 </label>       
                         
@@ -125,7 +125,7 @@ class Signupform extends Component {
                 <label for="signupfirstName" className={this.state.landscape}> 
                     <div className="labelTitle">First Name</div>
                     <div className="labelInput">
-                        <Input type="text" placeholder="enter your first Name" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
+                        <Input type="text" id="signupfirstName" placeholder="enter your first Name" bsStyle={signupfirstName.touched && signupfirstName.invalid ? 'error' : null} {...signupfirstName}/>
                     </div>    
                 </label>      
                         
@@ -135,7 +135,7 @@ class Signupform extends Component {
                 <label for="signuplastName" className={this.state.landscape}> 
                     <div className="labelTitle">Last Name</div>
                     <div className="labelInput">
-                        <Input type="text" placeholder="enter your last Name" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
+                        <Input type="text" id="signuplastName" placeholder="enter your last Name" bsStyle={signuplastName.touched && signuplastName.invalid ? 'error' : null} {...signuplastName}/>
                     </div>    
                 </label>   
                         
@@ -147,21 +147,21 @@ class Signupform extends Component {
                         <label for="signupemployer" className={this.state.landscape}> 
                             <div className="labelTitle">&bull; Employer </div>
                             <div className="labelInput">
-                                <Input type="text" placeholder="enter your employer" {...signupemployer}/>   
+                                <Input type="text" id="signupemployer" placeholder="enter your employer" {...signupemployer}/>   
                             </div>    
                         </label>                         
 
                         <label for="signupjobtitle" className={this.state.landscape}> 
                             <div className="labelTitle">&bull; Job title </div>
                             <div className="labelInput">
-                                <Input type="text" placeholder="enter your job title" {...signupjobtitle}/>
+                                <Input type="text" id="signupjobtitle" placeholder="enter your job title" {...signupjobtitle}/>
                             </div>    
                         </label>                         
   
                         <label for="signupdob" className={this.state.landscape}> 
                             <div className="labelTitle">&bull; Date of Birth</div>
                             <div className="labelInput">
-                                <Input type="date" placeholder="MM/dd/yyyy" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
+                                <Input type="date" id="signupdob" placeholder="MM/dd/yyyy" bsStyle={signupdob.touched && signupdob.invalid ? 'error' : null} {...signupdob}/>
                             </div>    
                         </label>     
                                 
